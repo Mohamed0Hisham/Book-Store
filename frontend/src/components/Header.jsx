@@ -2,7 +2,7 @@ import { ImBooks } from "react-icons/im";
 import { FaCartArrowDown } from "react-icons/fa";
 const Header = () => {
 	return (
-		<header className="flex text-white justify-between items-center p-2 bg-[#001524] fixed top-0 left-0 right-0">
+		<header className="z-50 flex text-white justify-between items-center p-2 bg-[#001524] fixed top-0 left-0 right-0">
 			<div className="flex items-center text-2xl font-bold">
 				<ImBooks />
 				<span className="inline-block">Book store</span>

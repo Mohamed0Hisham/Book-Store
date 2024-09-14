@@ -1,7 +1,7 @@
 import landingPhoto from "../assets/Bookshop.gif";
 const Landing = () => {
 	return (
-		<div className=" relative top-1/2 -translate-y-1/2">
+		<div className="h-screen relative top-3/4 translate-y-1/4">
 			<img src={landingPhoto} alt="landing photo" />
 			<div className=" text-center">
 				<h1 className="block font-bold text-3xl leading-7">
