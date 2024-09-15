@@ -1,4 +1,4 @@
-import Carousel from "./Ui/Carousel";
+import SwiperCarousel from "./Ui/SwiperCarousel";
 
 const Categories = () => {
 	return (
@@ -10,9 +10,7 @@ const Categories = () => {
 						Browse our featured categories
 					</p>
 				</div>
-				<div className="">
-					<Carousel />
-				</div>
+				<SwiperCarousel />
 			</section>
 		</div>
 	);
