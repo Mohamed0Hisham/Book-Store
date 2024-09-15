@@ -6,13 +6,13 @@ import { useEffect, useState } from "react";
 // Import Swiper styles
 import "swiper/css";
 
+const Small = 640;
+const meduim = 1080;
 const SwiperCarousel = () => {
 	const [width, setWidth] = useState(window.innerWidth);
 	const [count, setCount] = useState(1);
 	useEffect(() => {
 		window.addEventListener("resize", setWidth(window.innerWidth));
-		const Small = 640;
-		const meduim = 1080;
 		console.log(width);
 		if (width <= Small) setCount(1);
 		else if (width > Small && width <= meduim) setCount(2);
