@@ -112,6 +112,22 @@ const AddBook = () => {
 					</li>
 					<li className="flex flex-col">
 						<label
+							htmlFor="price"
+							className="uppercase pl-1 font-mono">
+							price<span className="text-red-500">*</span>
+						</label>
+						<input
+							onChange={handleInput}
+							className="sm:w-96 p-2 rounded-lg shadow-sm pl-4"
+							required
+							type="number"
+							name="price"
+							id="price"
+							placeholder="Book price"
+						/>
+					</li>
+					<li className="flex flex-col">
+						<label
 							htmlFor="description"
 							className="uppercase pl-1 font-mono">
 							description<span className="text-red-500">*</span>

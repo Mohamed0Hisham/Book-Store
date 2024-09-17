@@ -17,7 +17,6 @@ const bookSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 			trim: true,
-			minLength: 6,
 		},
 		description: {
 			type: String,
