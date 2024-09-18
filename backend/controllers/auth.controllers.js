@@ -5,8 +5,6 @@ import validator from "validator";
 import { errorHandler } from "../middleware/errorHandler.js";
 
 export const emailSignIn = async (req, res, next) => {
-    console.log(req.body);
-    
 	const { email, password } = req.body;
 	if (!email || !password) {
 		return next(errorHandler(400, "no data provided"));
@@ -23,7 +21,7 @@ export const emailSignIn = async (req, res, next) => {
 		return next(errorHandler(400, "invalid  password"));
 	}
 	try {
-        //sign the user in and persist the changes in the database
+		//sign the user in and persist the changes in the database
 		user.isSigned = true;
 		await user.save();
 
@@ -34,6 +32,7 @@ export const emailSignIn = async (req, res, next) => {
 		);
 
 		const { password, ...rest } = user._doc;
+		console.log(rest);
 
 		//setting up the cookie
 		res.cookie("access_token", token, {

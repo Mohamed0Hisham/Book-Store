@@ -13,7 +13,6 @@ const SwiperCarousel = () => {
 	const [count, setCount] = useState(1);
 	useEffect(() => {
 		window.addEventListener("resize", setWidth(window.innerWidth));
-		console.log(width);
 		if (width <= Small) setCount(1);
 		else if (width > Small && width <= meduim) setCount(2);
 		else if (width >= meduim) setCount(3);
