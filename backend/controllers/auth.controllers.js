@@ -32,17 +32,12 @@ export const emailSignIn = async (req, res, next) => {
 		);
 
 		const { password, ...rest } = user._doc;
-		console.log(rest);
 
-		//setting up the cookie
-		res.cookie("access_token", token, {
-			httpOnly: true,
-			maxAge: 60 * 60 * 1000,
-		});
 		return res.status(200).json({
 			success: true,
 			message: "Logged in successfully",
 			data: rest,
+			token: token,
 		});
 	} catch (error) {
 		return next(errorHandler(400, error.message));

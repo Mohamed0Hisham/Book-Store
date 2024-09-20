@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { userContext } from "../App.jsx";
+import userContext from "../context/userContext";
 
 const LogIn = () => {
-	const {setUser} = useContext(userContext)
+	const { setUser } = useContext(userContext);
 	const [formData, setFormData] = useState({});
+
 	const handleInput = (e) => {
 		setFormData({ ...formData, [e.target.id]: e.target.value });
 	};
@@ -24,8 +25,8 @@ const LogIn = () => {
 			);
 			if (res.ok) {
 				const { data } = await res.json();
-				console.log(data);
-				setUser(data)
+				sessionStorage.setItem("user", JSON.stringify(data));
+				setUser(data);
 				navigate(`/`);
 			}
 		} catch (error) {
@@ -33,7 +34,6 @@ const LogIn = () => {
 		}
 	};
 
-	
 	return (
 		<section className="h-screen p-2 mt-8 bg-zinc-50">
 			<form

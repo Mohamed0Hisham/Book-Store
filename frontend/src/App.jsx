@@ -7,31 +7,36 @@ import LogIn from "./pages/LogIn";
 import SignUp from "./pages/SignUp";
 import AddBook from "./pages/AddBook";
 import Book from "./pages/Book";
-import { createContext, useState} from "react";
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const userContext = createContext();
+import SignedHeader from "./components/SignedHeader";
+import userContext from "./context/userContext";
+import PrivateRoute from "./components/PrivateRoute";
+import AdminOnlyRoute from "./components/AdminOnlyRoute";
+import { useContext } from "react";
+import Blog from "./pages/Blog";
 
 function App() {
-	const [user, setUser] = useState(null)
+	const { user } = useContext(userContext);
 	return (
 		<>
-			<userContext.Provider
-				value={{
-					user,
-					setUser,
-				}}>
-				<Header />
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/all" element={<AllBooks />} />
-					<Route path="/book/:id" element={<Book />} />
-					<Route path="/signin" element={<LogIn />} />
-					<Route path="/signup" element={<SignUp />} />
+			{user?.isSigned ? <SignedHeader /> : <Header />}
+			<Routes>
+				<Route path="/" element={<Home />} exact />
+				<Route path="/all" element={<AllBooks />} />
+				<Route path="/book/:id" element={<Book />} />
+				<Route path="/signin" element={<LogIn />} />
+				<Route path="/signup" element={<SignUp />} />
+
+				{/* only user routes */}
+				<Route element={<PrivateRoute />}>
+					<Route path="/blog" element={<Blog/>} />
+				</Route>
+
+				{/* only admin routes */}
+				<Route element={<AdminOnlyRoute />}>
 					<Route path="/admin/add" element={<AddBook />} />
-				</Routes>
-				<Footer />
-			</userContext.Provider>
+				</Route>
+			</Routes>
+			<Footer />
 		</>
 	);
 }
