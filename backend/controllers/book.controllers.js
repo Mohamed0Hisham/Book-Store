@@ -60,3 +60,19 @@ export const getAllBooks = async (req, res, next) => {
 		return next(errorHandler(400, error.message));
 	}
 };
+export const getFilteredBooks = async (req, res, next) => {
+	const { category } = req.query;
+	try {
+		const books = await Book.find({category});
+		if (!books) {
+			throw new Error(404, "no books exist in database");
+		}
+		return res.status(200).json({
+			success: true,
+			message: "books fetched",
+			data: books,
+		});
+	} catch (error) {
+		return next(errorHandler(400, error.message));
+	}
+};

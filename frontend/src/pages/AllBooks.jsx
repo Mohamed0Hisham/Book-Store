@@ -1,6 +1,26 @@
 import BookList from "../components/BookList";
-import test from "../assets/testAPI.js";
+import { useEffect, useState } from "react";
 const AllBooks = () => {
+	const [books, setBooks] = useState([]);
+	const [selectdOption, setSelectedOption] = useState("");
+	useEffect(() => {
+		(async () => {
+			try {
+				const allBooksRes = await fetch(
+					"http://localhost:8080/book/all",
+					{
+						method: "GET",
+					}
+				);
+				if (allBooksRes.ok) {
+					const { data } = await allBooksRes.json();
+					setBooks(data);
+				}
+			} catch (error) {
+				console.log(error.message);
+			}
+		})();
+	}, []);
 	return (
 		<section className="p-2 mt-8">
 			<div className="flex justify-evenly items-center">
@@ -9,8 +29,29 @@ const AllBooks = () => {
 						Choose a Categorie
 					</h1>
 					<select
-						name=""
-						id=""
+						value={selectdOption}
+						onChange={(e) => setSelectedOption(e.target.value)}
+						onInput={async (e) => {
+							const params = {
+								category: e.target.value,
+							};
+
+							const queryString = new URLSearchParams(
+								params
+							).toString();
+							const fetchFiltredBooks = await fetch(
+								`http://localhost:8080/book/filter?${queryString}`,
+								{
+									method: "GET",
+								}
+							);
+							if (fetchFiltredBooks.ok) {
+								const { data } = await fetchFiltredBooks.json();
+								setBooks(data);
+							}
+						}}
+						name="category"
+						id="category"
 						className="w-full p-2 rounded-lg shadow-md appearance-none">
 						<option value="all">All Categories </option>
 						<option value="litreature">Litreature </option>
@@ -36,7 +77,7 @@ const AllBooks = () => {
 					/>
 				</div>
 			</div>
-			<BookList data={test} />
+			<BookList data={books} />
 		</section>
 	);
 };
