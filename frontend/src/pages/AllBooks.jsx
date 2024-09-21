@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 const AllBooks = () => {
 	const [books, setBooks] = useState([]);
 	const [selectdOption, setSelectedOption] = useState("");
+	const [searchData, setSearchData] = useState(null);
+
 	useEffect(() => {
 		(async () => {
 			try {
@@ -21,6 +23,28 @@ const AllBooks = () => {
 			}
 		})();
 	}, []);
+	const handleFilter = async (e) => {
+		const params = {
+			category: e.target.value,
+		};
+		const queryString = new URLSearchParams(params).toString();
+		const fetchFiltredBooks = await fetch(
+			`http://localhost:8080/book/filter?${queryString}`,
+			{
+				method: "GET",
+			}
+		);
+		if (fetchFiltredBooks.ok) {
+			const { data } = await fetchFiltredBooks.json();
+			setBooks(data);
+		}
+	};
+	const handleSearchBar = (e) => {
+		const searchResult = books.filter(
+			(book) => book && book.title.toLowerCase().includes(e.target.value)
+		);
+		setSearchData(searchResult);
+	};
 	return (
 		<section className="p-2 mt-8">
 			<div className="flex justify-evenly items-center">
@@ -31,25 +55,7 @@ const AllBooks = () => {
 					<select
 						value={selectdOption}
 						onChange={(e) => setSelectedOption(e.target.value)}
-						onInput={async (e) => {
-							const params = {
-								category: e.target.value,
-							};
-
-							const queryString = new URLSearchParams(
-								params
-							).toString();
-							const fetchFiltredBooks = await fetch(
-								`http://localhost:8080/book/filter?${queryString}`,
-								{
-									method: "GET",
-								}
-							);
-							if (fetchFiltredBooks.ok) {
-								const { data } = await fetchFiltredBooks.json();
-								setBooks(data);
-							}
-						}}
+						onInput={handleFilter}
 						name="category"
 						id="category"
 						className="w-full p-2 rounded-lg shadow-md appearance-none">
@@ -69,6 +75,7 @@ const AllBooks = () => {
 						Search for a specific book
 					</h1>
 					<input
+						onChange={handleSearchBar}
 						type="search"
 						name=""
 						id=""
@@ -77,7 +84,7 @@ const AllBooks = () => {
 					/>
 				</div>
 			</div>
-			<BookList data={books} />
+			<BookList data={searchData || books} />
 		</section>
 	);
 };

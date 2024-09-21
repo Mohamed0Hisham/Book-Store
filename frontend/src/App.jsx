@@ -13,12 +13,21 @@ import PrivateRoute from "./components/PrivateRoute";
 import AdminOnlyRoute from "./components/AdminOnlyRoute";
 import { useContext } from "react";
 import Blog from "./pages/Blog";
+import AdminHeader from "./components/AdminHeader";
 
 function App() {
 	const { user } = useContext(userContext);
 	return (
 		<>
-			{user?.isSigned ? <SignedHeader /> : <Header />}
+			{user ? (
+				user.isAdmin ? (
+					<AdminHeader />
+				) : (
+					<SignedHeader />
+				)
+			) : (
+				<Header />
+			)}
 			<Routes>
 				<Route path="/" element={<Home />} exact />
 				<Route path="/all" element={<AllBooks />} />
@@ -28,7 +37,7 @@ function App() {
 
 				{/* only user routes */}
 				<Route element={<PrivateRoute />}>
-					<Route path="/blog" element={<Blog/>} />
+					<Route path="/blog" element={<Blog />} />
 				</Route>
 
 				{/* only admin routes */}

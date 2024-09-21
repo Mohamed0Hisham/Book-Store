@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { MdOutlineMenu } from "react-icons/md";
 import { Link } from "react-router-dom";
 import userContext from "../context/userContext";
+import LogoutBtn from "./LogoutBtn";
 const DropDown = () => {
 	const [dropMenu, setDropMenu] = useState(false);
 	const { user } = useContext(userContext);
@@ -30,9 +31,7 @@ const DropDown = () => {
 						)}
 
 						{user ? (
-							<li className="my-5 border-b-2 p-2 hover:scale-95 hover:bg-slate-100 duration-300">
-								<Link to={"exit"}>Log out</Link>
-							</li>
+							<LogoutBtn />
 						) : (
 							<li className="my-5 border-b-2 p-2 hover:scale-95 hover:bg-slate-100 duration-300">
 								<Link to={"signin"}>Log in</Link>
